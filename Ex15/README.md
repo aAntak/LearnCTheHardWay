@@ -1,14 +1,14 @@
 ### Exercise 15: Pointers Dreaded Pointers
 #### Extra Credit
 
-##### Rewrite all the array usage in this program so that it's pointers.
-##### Rewrite all the pointer usage so they're arrays.
-##### Go back to some of the other programs that use arrays and try to use pointers instead.
-##### Process command line arguments using just pointers similar to how you did names in this one.
-##### Play with combinations of getting the value of and the address of things.
-##### Add another for-loop at the end that prints out the addresses these pointers are using. You'll need the %p format for printf .
-##### Rewrite this program to use a function for each of the ways you're printing out things. Try to pass pointers to these functions so they work on the data. Remember you can declare a function to accept a pointer, but just use it like an array.
-##### Change the for-loops to while-loops and see what works better for which kind of pointer usage.
+1. Rewrite all the array usage in this program so that it's pointers.
+2. Rewrite all the pointer usage so they're arrays.
+3. Go back to some of the other programs that use arrays and try to use pointers instead.
+4. Process command line arguments using just pointers similar to how you did names in this one.
+5. Play with combinations of getting the value of and the address of things.
+6. Add another for-loop at the end that prints out the addresses these pointers are using. You'll need the %p format for printf .
+7. Rewrite this program to use a function for each of the ways you're printing out things. Try to pass pointers to these functions so they work on the data. Remember you can declare a function to accept a pointer, but just use it like an array.
+8. Change the for-loops to while-loops and see what works better for which kind of pointer usage.
 
 ``` #include <stdio.h>
 
