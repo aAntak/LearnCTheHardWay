@@ -26,6 +26,7 @@
 #include <errno.h>
 #include <string.h>
 
+
 struct Address {
 	int id;
 	int set;
@@ -192,7 +193,7 @@ void Database_set(struct Connection *conn, int id, const char *name, const char 
 	char *res = strncpy(addr->name, name, conn->db->MAX_DATA2);
 	printf("Name in set %s", addr->name);
 	//demonstrate the strncpy bug
-	addr->name[MAX_DATA-1] = '\0';
+	addr->name[conn->db->MAX_DATA2-1] = '\0';
 	addr->name[conn->db->MAX_DATA2-1] = '\0';
 	if(!res) die("Name copy failed",conn);
 
@@ -246,6 +247,7 @@ int main(int argc, char *argv[])
 	char *filename = argv[1];
 	char action = argv[2][0];
 	struct Connection *conn = Database_open(filename, action);
+	int id = 0;
 	if(argv[2][0]=='c') {
 		if(argc!=5) {
 			die("INVALID. Required format <C> <MAX_ROWS> <MAX_DATA> \n", conn);
@@ -254,11 +256,10 @@ int main(int argc, char *argv[])
 		conn->db->MAX_DATA2 = atoi(argv[4]);
 		printf("MAX ROWS %d, MAX_DATA : %d\n", conn->db->MAX_ROWS2, conn->db->MAX_DATA2);
 	}
-	
-	int id = 0;
+	else {
 	if(argc > 3) id = atoi(argv[3]);
-	if(id >= MAX_ROWS) die("There's not that many records.",conn);
-
+	if(id >= conn->db->MAX_ROWS2) die("There's not that many records.",conn);
+	}
 	switch(action) {
 		case 'c':
 			Database_create(conn);
@@ -293,6 +294,7 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
 
 ````
 3. Add more operations you can do on the database, like find .
