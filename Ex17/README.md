@@ -294,8 +294,6 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-
-
 ````
 3. Add more operations you can do on the database, like find .
 4. Read about how C does it's struct packing, and then try to see why your file is the size it is. See if you can calculate a new size after adding more fields.
