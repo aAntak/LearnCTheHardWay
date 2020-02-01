@@ -296,6 +296,81 @@ int main(int argc, char *argv[])
 }
 ````
 3. Add more operations you can do on the database, like find .
+
+````
+void Database_find(struct Connection * conn, char* name)
+{
+	int i = 0;
+	for(i = 0; i < conn->db->MAX_ROWS2; i++) {
+		struct Address *addr = conn->db->rows[i];
+		if(strcmp(addr->name, name) == 0) {
+			Address_print(addr);
+		}
+	}
+}
+
+int main(int argc, char *argv[])
+{
+	
+	if(argc < 3) { printf("USAGE: ex17 <dbfile> <action> [action params] \n"); exit(1); }
+
+	char *filename = argv[1];
+	char action = argv[2][0];
+	struct Connection *conn = Database_open(filename, action);
+	int id = 0;
+	if(argv[2][0]=='c') {
+		if(argc!=5) {
+			die("INVALID. Required format <C> <MAX_ROWS> <MAX_DATA> \n", conn);
+		}
+		conn->db->MAX_ROWS2 = atoi(argv[3]);
+		conn->db->MAX_DATA2 = atoi(argv[4]);
+		printf("MAX ROWS %d, MAX_DATA : %d\n", conn->db->MAX_ROWS2, conn->db->MAX_DATA2);
+	}
+	else {
+	if(argc > 3) id = atoi(argv[3]);
+	if(id >= conn->db->MAX_ROWS2) die("There's not that many records.",conn);
+	}
+	switch(action) {
+		case 'c':
+			Database_create(conn);
+			Database_write(conn);
+			break;
+		case 'f':
+			if(argc!=4) die("Need a name to find",conn);
+			Database_find(conn, argv[3]);
+			break;
+		case 'g':
+			if(argc!=4) die("Need an id to get",conn);
+			Database_get(conn,id);
+			break;
+		
+		case 's':
+			if(argc != 6) die("Need id, name, email to set",conn);
+			Database_set(conn, id, argv[4], argv[5]);
+			Database_write(conn);
+			break;
+		
+		case 'd':
+			if(argc!=4) die("Need id to delete",conn);
+			Database_delete(conn,id);
+			Database_write(conn);
+			break;
+		
+		case 'l':
+			Database_list(conn);
+			break;	
+		default:
+			die("Invalid action, only: c=create, g=get, s=set, d=del, l=list",conn);		
+	}
+
+	Database_close(conn);
+
+	return 0;
+}
+
+
+
+````
 4. Read about how C does it's struct packing, and then try to see why your file is the size it is. See if you can calculate a new size after adding more fields.
 5. Add some more fields to the Address and make them searchable.
 6. Write a shell script that will do your testing automatically for you by running commands in the right order. Hint: Use set -e at the top of a bash to make it abort the whole script if any
